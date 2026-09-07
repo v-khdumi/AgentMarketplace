@@ -80,7 +80,7 @@ Build Linux deployment artifacts on Linux because native packages are platform-s
 Use the Deploy to Azure button above for a showcase that requires no Microsoft Entra registration and displays no login screen. The template:
 
 - deploys App Service F1 and initializes the read-only showcase state in ephemeral application storage;
-- connects App Service deployment to this public GitHub repository and the `main` branch;
+- installs a prebuilt Linux standalone package published with this repository, avoiding an in-portal build;
 - sets `PUBLIC_DEMO_MODE=true` and initializes representative catalog, profile, discussion, idea, and team data;
 - uses one shared reader identity and blocks every non-GET marketplace API request;
 - disables upload/download and external notification delivery paths for the public visitor.

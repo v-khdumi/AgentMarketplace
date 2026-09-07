@@ -41,8 +41,8 @@ test("public demo template is login-free, read-only and deploys from the public 
   const template = JSON.parse(await readFile(new URL("../infra/azuredeploy-demo.json", import.meta.url), "utf8"));
   const resources = JSON.stringify(template.resources);
   assert.match(resources, /PUBLIC_DEMO_MODE/);
-  assert.equal(template.parameters.repositoryUrl.defaultValue, "https://github.com/v-khdumi/AgentMarketplace");
-  assert.match(resources, /sourcecontrols/);
+  assert.match(template.parameters.packageUri.defaultValue, /raw\.githubusercontent\.com\/v-khdumi\/AgentMarketplace\/main\/release\/agent-marketplace-linux\.zip/);
+  assert.match(resources, /onedeploy/);
   assert.doesNotMatch(resources, /ENTRA_CLIENT_SECRET/);
   const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
   assert.match(readme, /aka\.ms\/deploytoazurebutton/);

@@ -6,11 +6,8 @@ param appName string = 'agent-marketplace-${uniqueString(resourceGroup().id)}'
 @description('Azure region for the demo resources')
 param location string = resourceGroup().location
 
-@description('Public GitHub repository containing the application')
-param repositoryUrl string = 'https://github.com/v-khdumi/AgentMarketplace'
-
-@description('Repository branch deployed by App Service')
-param branch string = 'main'
+@description('Prebuilt Linux standalone ZIP published with the repository')
+param packageUri string = 'https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/main/release/agent-marketplace-linux.zip'
 
 var sessionSecret = '${uniqueString(resourceGroup().id, appName, subscription().subscriptionId)}${uniqueString(appName, tenant().tenantId)}${uniqueString(resourceGroup().id, tenant().tenantId)}'
 
@@ -31,7 +28,7 @@ resource app 'Microsoft.Web/sites@2023-12-01' = {
     httpsOnly: true
     siteConfig: {
       linuxFxVersion: 'NODE|22-lts'
-      appCommandLine: 'npm start'
+      appCommandLine: 'node server.js'
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       ftpsState: 'Disabled'
@@ -48,12 +45,13 @@ resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
   properties: {
     NODE_ENV: 'production'
     WEBSITE_NODE_DEFAULT_VERSION: '~22'
-    SCM_DO_BUILD_DURING_DEPLOYMENT: 'true'
-    ENABLE_ORYX_BUILD: 'true'
+    SCM_DO_BUILD_DURING_DEPLOYMENT: 'false'
+    ENABLE_ORYX_BUILD: 'false'
+    WEBSITE_RUN_FROM_PACKAGE: '1'
     NEXTAUTH_URL: 'https://${app.properties.defaultHostName}'
     NEXTAUTH_SECRET: sessionSecret
     PUBLIC_DEMO_MODE: 'true'
-    DEMO_TENANT_ID: 'agent-marketplace-demo'
+    DEMO_TENANT_ID: 'agent-marketplace-demo-v2'
     SEED_EXAMPLES: 'true'
     MARKETPLACE_DATA_DIR: '/tmp/agent-marketplace'
     REQUIRE_MALWARE_SCAN: 'false'
@@ -61,16 +59,13 @@ resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
   }
 }
 
-resource sourceControl 'Microsoft.Web/sites/sourcecontrols@2023-12-01' = {
+resource zipDeploy 'Microsoft.Web/sites/extensions@2023-12-01' = {
   parent: app
-  name: 'web'
+  name: 'onedeploy'
   dependsOn: [appSettings]
+  #disable-next-line BCP187
   properties: {
-    repoUrl: repositoryUrl
-    branch: branch
-    isManualIntegration: true
-    deploymentRollbackEnabled: false
-    isMercurial: false
+    packageUri: packageUri
   }
 }
 

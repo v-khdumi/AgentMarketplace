@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "1781609538576497085"
+      "templateHash": "2604234166383218867"
     }
   },
   "parameters": {
@@ -25,18 +25,11 @@
         "description": "Azure region for the demo resources"
       }
     },
-    "repositoryUrl": {
+    "packageUri": {
       "type": "string",
-      "defaultValue": "https://github.com/v-khdumi/AgentMarketplace",
+      "defaultValue": "https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/main/release/agent-marketplace-linux.zip",
       "metadata": {
-        "description": "Public GitHub repository containing the application"
-      }
-    },
-    "branch": {
-      "type": "string",
-      "defaultValue": "main",
-      "metadata": {
-        "description": "Repository branch deployed by App Service"
+        "description": "Prebuilt Linux standalone ZIP published with the repository"
       }
     }
   },
@@ -70,7 +63,7 @@
         "httpsOnly": true,
         "siteConfig": {
           "linuxFxVersion": "NODE|22-lts",
-          "appCommandLine": "npm start",
+          "appCommandLine": "node server.js",
           "minTlsVersion": "1.2",
           "scmMinTlsVersion": "1.2",
           "ftpsState": "Disabled",
@@ -90,12 +83,13 @@
       "properties": {
         "NODE_ENV": "production",
         "WEBSITE_NODE_DEFAULT_VERSION": "~22",
-        "SCM_DO_BUILD_DURING_DEPLOYMENT": "true",
-        "ENABLE_ORYX_BUILD": "true",
+        "SCM_DO_BUILD_DURING_DEPLOYMENT": "false",
+        "ENABLE_ORYX_BUILD": "false",
+        "WEBSITE_RUN_FROM_PACKAGE": "1",
         "NEXTAUTH_URL": "[format('https://{0}', reference(resourceId('Microsoft.Web/sites', parameters('appName')), '2023-12-01').defaultHostName)]",
         "NEXTAUTH_SECRET": "[variables('sessionSecret')]",
         "PUBLIC_DEMO_MODE": "true",
-        "DEMO_TENANT_ID": "agent-marketplace-demo",
+        "DEMO_TENANT_ID": "agent-marketplace-demo-v2",
         "SEED_EXAMPLES": "true",
         "MARKETPLACE_DATA_DIR": "/tmp/agent-marketplace",
         "REQUIRE_MALWARE_SCAN": "false",
@@ -106,15 +100,11 @@
       ]
     },
     {
-      "type": "Microsoft.Web/sites/sourcecontrols",
+      "type": "Microsoft.Web/sites/extensions",
       "apiVersion": "2023-12-01",
-      "name": "[format('{0}/{1}', parameters('appName'), 'web')]",
+      "name": "[format('{0}/{1}', parameters('appName'), 'onedeploy')]",
       "properties": {
-        "repoUrl": "[parameters('repositoryUrl')]",
-        "branch": "[parameters('branch')]",
-        "isManualIntegration": true,
-        "deploymentRollbackEnabled": false,
-        "isMercurial": false
+        "packageUri": "[parameters('packageUri')]"
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('appName'))]",
