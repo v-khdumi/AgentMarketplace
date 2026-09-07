@@ -52,7 +52,7 @@ export function Header() {
       </div>
     </header>
     {data?.local && <div className="local-bar"><div className="page-width"><span>{tr("Mediu local · date de exemplu", "Local environment · example data")}</span><label>{tr("Identitate", "Identity")}<select aria-label={tr("Identitate locală", "Local identity")} value={actor?.id ?? ""} disabled={switching} onChange={async (event) => { setSwitching(true); setError(null); try { await api("dev/actor", { method: "POST", body: { id: event.target.value } }); window.location.reload(); } catch (failure) { setError(failure); setSwitching(false); } }}>{data.identities.map((identity) => <option value={identity.id} key={identity.id}>{identity.name} · {stateName(identity.role, locale)}</option>)}</select></label></div></div>}
-    {data?.demo && <div className="local-bar demo-bar"><div className="page-width"><span>{tr("DEMO public · date partajate și resetabile · nu introduce informații confidențiale", "Public demo · shared, resettable data · do not enter confidential information")}</span></div></div>}
+    {data?.demo && <div className="local-bar demo-bar"><div className="page-width"><span>{tr("DEMO de prezentare · explorează toate fluxurile · salvarea este dezactivată", "Presentation demo · explore every workflow · saving is disabled")}</span></div></div>}
     {Boolean(error) && <div className="page-width"><ErrorBox error={error}/></div>}
     {bootstrapError && <div className="page-width"><ErrorBox error={bootstrapError} retry={() => void reload()}/></div>}
   </>;
