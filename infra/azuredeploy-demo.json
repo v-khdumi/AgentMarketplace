@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "12501938272586232595"
+      "templateHash": "5963366191038100647"
     }
   },
   "parameters": {
@@ -85,7 +85,6 @@
         "WEBSITE_NODE_DEFAULT_VERSION": "~22",
         "SCM_DO_BUILD_DURING_DEPLOYMENT": "false",
         "ENABLE_ORYX_BUILD": "false",
-        "WEBSITE_RUN_FROM_PACKAGE": "1",
         "NEXTAUTH_URL": "[format('https://{0}', reference(resourceId('Microsoft.Web/sites', parameters('appName')), '2023-12-01').defaultHostName)]",
         "NEXTAUTH_SECRET": "[variables('sessionSecret')]",
         "PUBLIC_DEMO_MODE": "true",

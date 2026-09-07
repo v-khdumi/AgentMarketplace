@@ -47,7 +47,6 @@ resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
     WEBSITE_NODE_DEFAULT_VERSION: '~22'
     SCM_DO_BUILD_DURING_DEPLOYMENT: 'false'
     ENABLE_ORYX_BUILD: 'false'
-    WEBSITE_RUN_FROM_PACKAGE: '1'
     NEXTAUTH_URL: 'https://${app.properties.defaultHostName}'
     NEXTAUTH_SECRET: sessionSecret
     PUBLIC_DEMO_MODE: 'true'
