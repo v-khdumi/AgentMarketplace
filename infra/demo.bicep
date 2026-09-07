@@ -19,7 +19,7 @@ var sessionSecret = '${uniqueString(resourceGroup().id, appName, subscription().
 resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: '${appName}-plan'
   location: location
-  sku: { name: 'B1' }
+  sku: { name: 'F1' }
   kind: 'linux'
   properties: { reserved: true }
 }
@@ -65,7 +65,7 @@ resource app 'Microsoft.Web/sites@2023-12-01' = {
       minTlsVersion: '1.2'
       scmMinTlsVersion: '1.2'
       ftpsState: 'Disabled'
-      alwaysOn: true
+      alwaysOn: false
       healthCheckPath: '/api/health'
       http20Enabled: true
     }

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "2458759943057637322"
+      "templateHash": "946040321194059361"
     }
   },
   "parameters": {
@@ -52,7 +52,7 @@
       "name": "[format('{0}-plan', parameters('appName'))]",
       "location": "[parameters('location')]",
       "sku": {
-        "name": "B1"
+        "name": "F1"
       },
       "kind": "linux",
       "properties": {
@@ -118,7 +118,7 @@
           "minTlsVersion": "1.2",
           "scmMinTlsVersion": "1.2",
           "ftpsState": "Disabled",
-          "alwaysOn": true,
+          "alwaysOn": false,
           "healthCheckPath": "/api/health",
           "http20Enabled": true
         }
