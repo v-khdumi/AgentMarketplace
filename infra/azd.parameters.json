@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": { "value": "${AZURE_ENV_NAME}" },
+    "location": { "value": "${AZURE_LOCATION}" },
+    "entraClientId": { "value": "${ENTRA_CLIENT_ID}" },
+    "entraTenantId": { "value": "${ENTRA_TENANT_ID}" },
+    "entraClientSecret": { "value": "${ENTRA_CLIENT_SECRET}" },
+    "nextAuthSecret": { "value": "${NEXTAUTH_SECRET}" },
+    "adminGroupIds": { "value": "${ADMIN_GROUP_IDS}" },
+    "graphMailSender": { "value": "${GRAPH_MAIL_SENDER}" },
+    "teamsNotificationWebhook": { "value": "${TEAMS_NOTIFICATION_WEBHOOK}" },
+    "notificationsJobToken": { "value": "${NOTIFICATIONS_JOB_TOKEN}" }
+  }
+}

@@ -1,0 +1,12 @@
+node_modules
+.next
+.next-e2e
+.git
+.env*
+.marketplace-data
+.tools
+.vscode
+test-results
+playwright-report
+*.tsbuildinfo
+*.zip

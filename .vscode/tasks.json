@@ -1,0 +1,110 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Marketplace: Infrastructure",
+			"type": "shell",
+			"command": "az bicep build --file infra/main.bicep --outfile infra/azuredeploy.json",
+			"windows": { "command": "${workspaceFolder}/.tools/bicep.exe", "args": ["build", "infra/main.bicep", "--outfile", "infra/azuredeploy.json"] },
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Marketplace: Responsive E2E",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/@playwright/test/cli.js", "test", "tests/e2e/marketplace.spec.ts", "--grep", "catalog and operational"],
+			"options": { "env": { "MARKETPLACE_E2E_PORT": "3147" } },
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Marketplace: Legacy E2E",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/@playwright/test/cli.js", "test", "tests/e2e/marketplace.spec.ts"],
+			"options": { "env": { "MARKETPLACE_E2E_PORT": "3137" } },
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Marketplace: Community E2E",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/@playwright/test/cli.js", "test", "tests/e2e/community.spec.ts"],
+			"options": { "env": { "MARKETPLACE_E2E_PORT": "3117" } },
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Marketplace: TypeScript",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/typescript/bin/tsc", "--noEmit", "--incremental", "false", "--pretty", "false"],
+			"problemMatcher": ["$tsc"],
+			"group": "test"
+		},
+		{
+			"label": "Marketplace: Unit tests",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/tsx/dist/cli.mjs", "--test", "tests/*.test.mjs"],
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Marketplace: Lint",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/eslint/bin/eslint.js", "."],
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Marketplace: E2E",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/@playwright/test/cli.js", "test"],
+			"options": { "env": { "MARKETPLACE_E2E_PORT": "3127" } },
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Marketplace: Build",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["node_modules/next/dist/bin/next", "build"],
+			"options": { "env": { "NEXT_TELEMETRY_DISABLED": "1" } },
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Marketplace: Package",
+			"type": "shell",
+			"command": "node",
+			"windows": { "command": "${workspaceFolder}/.tools/node/node.exe" },
+			"args": ["scripts/prepare-standalone.mjs"],
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Marketplace: Dependencies",
+			"type": "shell",
+			"command": "npm",
+			"args": ["install", "--ignore-scripts", "--no-audit", "--no-fund"],
+			"windows": {
+				"command": "${workspaceFolder}/.tools/node/node.exe",
+				"args": [".tools/node/node_modules/npm/bin/npm-cli.js", "install", "--ignore-scripts", "--no-audit", "--no-fund"]
+			},
+			"problemMatcher": []
+		}
+	]
+}

@@ -1,0 +1,21 @@
+name: agent-marketplace
+metadata:
+  template: agent-marketplace@1.0.0
+services:
+  web:
+    project: .
+    dist: .next/standalone
+    language: ts
+    host: appservice
+    hooks:
+      postbuild:
+        windows:
+          shell: pwsh
+          run: node scripts/prepare-standalone.mjs
+        posix:
+          shell: sh
+          run: node scripts/prepare-standalone.mjs
+infra:
+  provider: bicep
+  path: infra
+  module: azd

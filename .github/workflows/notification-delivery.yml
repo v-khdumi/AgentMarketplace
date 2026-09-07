@@ -1,0 +1,29 @@
+name: Deliver community notifications
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: marketplace-notification-delivery
+  cancel-in-progress: false
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Dispatch pending notifications
+        env:
+          JOB_URL: ${{ vars.NOTIFICATIONS_JOB_URL }}
+          JOB_TOKEN: ${{ secrets.NOTIFICATIONS_JOB_TOKEN }}
+        run: |
+          test -n "$JOB_URL"
+          test -n "$JOB_TOKEN"
+          curl --fail --silent --show-error --max-time 90 \
+            --retry 2 --retry-all-errors --retry-delay 5 \
+            -X POST -H "Authorization: Bearer $JOB_TOKEN" "$JOB_URL"
