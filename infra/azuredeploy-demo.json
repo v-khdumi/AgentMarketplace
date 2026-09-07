@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "15632048704500603331"
+      "templateHash": "1781609538576497085"
     }
   },
   "parameters": {
@@ -97,7 +97,7 @@
         "PUBLIC_DEMO_MODE": "true",
         "DEMO_TENANT_ID": "agent-marketplace-demo",
         "SEED_EXAMPLES": "true",
-        "MARKETPLACE_DATA_DIR": "/home/data",
+        "MARKETPLACE_DATA_DIR": "/tmp/agent-marketplace",
         "REQUIRE_MALWARE_SCAN": "false",
         "NEXT_TELEMETRY_DISABLED": "1"
       },

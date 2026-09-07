@@ -55,7 +55,7 @@ resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
     PUBLIC_DEMO_MODE: 'true'
     DEMO_TENANT_ID: 'agent-marketplace-demo'
     SEED_EXAMPLES: 'true'
-    MARKETPLACE_DATA_DIR: '/home/data'
+    MARKETPLACE_DATA_DIR: '/tmp/agent-marketplace'
     REQUIRE_MALWARE_SCAN: 'false'
     NEXT_TELEMETRY_DISABLED: '1'
   }
