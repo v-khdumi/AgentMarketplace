@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "13445569627267704169"
+      "templateHash": "2903811550166381104"
     }
   },
   "parameters": {
@@ -27,7 +27,7 @@
     },
     "packageUri": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/main/release/agent-marketplace-linux.zip?v=bt-visual-2",
+      "defaultValue": "https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/a26b7bf/release/agent-marketplace-linux.zip",
       "metadata": {
         "description": "Prebuilt Linux standalone ZIP published with the repository"
       }
