@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "2604234166383218867"
+      "templateHash": "4335453107260784514"
     }
   },
   "parameters": {
@@ -104,7 +104,10 @@
       "apiVersion": "2023-12-01",
       "name": "[format('{0}/{1}', parameters('appName'), 'onedeploy')]",
       "properties": {
-        "packageUri": "[parameters('packageUri')]"
+        "packageUri": "[parameters('packageUri')]",
+        "type": "zip",
+        "clean": true,
+        "restart": true
       },
       "dependsOn": [
         "[resourceId('Microsoft.Web/sites', parameters('appName'))]",

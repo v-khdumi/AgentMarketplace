@@ -66,6 +66,9 @@ resource zipDeploy 'Microsoft.Web/sites/extensions@2023-12-01' = {
   #disable-next-line BCP187
   properties: {
     packageUri: packageUri
+    type: 'zip'
+    clean: true
+    restart: true
   }
 }
 
