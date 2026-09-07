@@ -194,7 +194,8 @@ export async function marketplaceApi(request: NextRequest, segments: string[]): 
   } catch (error) {
     if (error instanceof z.ZodError) return NextResponse.json({ error: "Check the required fields.", issues: error.issues.map((issue) => ({ field: issue.path.join("."), message: issue.message })) }, { status: 422 });
     if (error instanceof WorkflowError) return NextResponse.json({ error: error.message }, { status: error.status, headers: { "Cache-Control": "no-store" } });
-    console.error(JSON.stringify({ event: "marketplace-error", type: error instanceof Error ? error.name : "UnknownError" }));
+    const serviceError = error as { name?: string; statusCode?: number; code?: string };
+    console.error(JSON.stringify({ event: "marketplace-error", type: serviceError.name ?? "UnknownError", status: serviceError.statusCode, code: serviceError.code }));
     return NextResponse.json({ error: "The operation could not be completed. Check the service configuration and retry." }, { status: 503 });
   }
 }
