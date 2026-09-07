@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "2350057607252568831"
+      "templateHash": "9338142950231771744"
     }
   },
   "parameters": {
@@ -27,7 +27,7 @@
     },
     "packageUri": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/6782b59/release/agent-marketplace-linux.zip",
+      "defaultValue": "https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/f743633/release/agent-marketplace-linux.zip",
       "metadata": {
         "description": "Prebuilt Linux standalone ZIP published with the repository"
       }
@@ -88,7 +88,7 @@
         "NEXTAUTH_URL": "[format('https://{0}', reference(resourceId('Microsoft.Web/sites', parameters('appName')), '2023-12-01').defaultHostName)]",
         "NEXTAUTH_SECRET": "[variables('sessionSecret')]",
         "PUBLIC_DEMO_MODE": "true",
-        "DEMO_TENANT_ID": "agent-marketplace-demo-v3",
+        "DEMO_TENANT_ID": "agent-marketplace-demo-contoso-v1",
         "SEED_EXAMPLES": "true",
         "MARKETPLACE_DATA_DIR": "/tmp/agent-marketplace",
         "REQUIRE_MALWARE_SCAN": "false",
