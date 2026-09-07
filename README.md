@@ -4,7 +4,7 @@ Private, tenant-scoped marketplace for Microsoft 365 Copilot Agent Builder and C
 
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fv-khdumi%2FAgentMarketplace%2Fmain%2Finfra%2Fazuredeploy-demo.json)
 
-The button deploys a public, login-free, read-only MVP with example agents and community content. It uses an App Service F1 plan and a private Standard LRS Storage account. F1 is intended only for demos and may sleep or throttle; review the estimated Azure cost before confirming because Storage can still incur charges.
+The button deploys a public, login-free, read-only MVP with example agents and community content. It uses an App Service F1 plan and its persistent `/home` storage. F1 is intended only for demos and may sleep, throttle, or be unavailable in some subscriptions.
 
 ## What is implemented
 
@@ -79,7 +79,7 @@ Build Linux deployment artifacts on Linux because native packages are platform-s
 
 Use the Deploy to Azure button above for a showcase that requires no Microsoft Entra registration and displays no login screen. The template:
 
-- deploys App Service and private Blob Storage with Managed Identity;
+- deploys App Service F1 and stores the read-only showcase state under persistent `/home/data`;
 - connects App Service deployment to this public GitHub repository and the `main` branch;
 - sets `PUBLIC_DEMO_MODE=true` and initializes representative catalog, profile, discussion, idea, and team data;
 - uses one shared reader identity and blocks every non-GET marketplace API request;

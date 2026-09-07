@@ -12,9 +12,7 @@ param repositoryUrl string = 'https://github.com/v-khdumi/AgentMarketplace'
 @description('Repository branch deployed by App Service')
 param branch string = 'main'
 
-var suffix = uniqueString(resourceGroup().id, appName)
-var storageName = 'amdemo${suffix}'
-var sessionSecret = '${uniqueString(resourceGroup().id, appName, subscription().subscriptionId)}${uniqueString(appName, tenant().tenantId)}${uniqueString(storageName, resourceGroup().id)}'
+var sessionSecret = '${uniqueString(resourceGroup().id, appName, subscription().subscriptionId)}${uniqueString(appName, tenant().tenantId)}${uniqueString(resourceGroup().id, tenant().tenantId)}'
 
 resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: '${appName}-plan'
@@ -22,34 +20,6 @@ resource plan 'Microsoft.Web/serverfarms@2023-12-01' = {
   sku: { name: 'F1' }
   kind: 'linux'
   properties: { reserved: true }
-}
-
-resource storage 'Microsoft.Storage/storageAccounts@2023-05-01' = {
-  name: storageName
-  location: location
-  sku: { name: 'Standard_LRS' }
-  kind: 'StorageV2'
-  properties: {
-    allowBlobPublicAccess: false
-    allowSharedKeyAccess: false
-    minimumTlsVersion: 'TLS1_2'
-    supportsHttpsTrafficOnly: true
-  }
-}
-
-resource blob 'Microsoft.Storage/storageAccounts/blobServices@2023-05-01' = {
-  parent: storage
-  name: 'default'
-  properties: {
-    isVersioningEnabled: true
-    deleteRetentionPolicy: { enabled: true, days: 7 }
-  }
-}
-
-resource packages 'Microsoft.Storage/storageAccounts/blobServices/containers@2023-05-01' = {
-  parent: blob
-  name: 'agent-packages'
-  properties: { publicAccess: 'None' }
 }
 
 resource app 'Microsoft.Web/sites@2023-12-01' = {
@@ -72,20 +42,9 @@ resource app 'Microsoft.Web/sites@2023-12-01' = {
   }
 }
 
-resource storageRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid(storage.id, app.id, 'blob-contributor')
-  scope: storage
-  properties: {
-    principalId: app.identity.principalId
-    principalType: 'ServicePrincipal'
-    roleDefinitionId: subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')
-  }
-}
-
 resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
   parent: app
   name: 'appsettings'
-  dependsOn: [storageRole]
   properties: {
     NODE_ENV: 'production'
     WEBSITE_NODE_DEFAULT_VERSION: '~22'
@@ -96,8 +55,7 @@ resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
     PUBLIC_DEMO_MODE: 'true'
     DEMO_TENANT_ID: 'agent-marketplace-demo'
     SEED_EXAMPLES: 'true'
-    AZURE_STORAGE_ACCOUNT: storage.name
-    AZURE_STORAGE_CONTAINER: packages.name
+    MARKETPLACE_DATA_DIR: '/home/data'
     REQUIRE_MALWARE_SCAN: 'false'
     NEXT_TELEMETRY_DISABLED: '1'
   }
@@ -117,4 +75,3 @@ resource sourceControl 'Microsoft.Web/sites/sourcecontrols@2023-12-01' = {
 }
 
 output demoUrl string = 'https://${app.properties.defaultHostName}'
-output storageAccountName string = storage.name

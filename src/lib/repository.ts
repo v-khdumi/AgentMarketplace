@@ -6,7 +6,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { BlobServiceClient, type ContainerClient } from "@azure/storage-blob";
 import { emptyStore, type StoreDocument } from "./contracts";
 import { WorkflowError } from "./workflow";
-export { isPublicDemoMode } from "./runtime-mode";
+import { isPublicDemoMode } from "./runtime-mode";
+export { isPublicDemoMode };
 
 const shared = globalThis as typeof globalThis & { marketplaceLocks?: Map<string, Promise<void>> };
 const locks = shared.marketplaceLocks ??= new Map();
@@ -147,6 +148,6 @@ export class MarketplaceRepository {
 export function isLocalMode() { return process.env.NODE_ENV !== "production" && process.env.DEMO_MODE === "true"; }
 export function getRepository() {
   const account = process.env.AZURE_STORAGE_ACCOUNT;
-  if (!account && !isLocalMode()) throw new WorkflowError("Configure Azure Storage before using the marketplace.", 503);
+  if (!account && !isLocalMode() && !isPublicDemoMode()) throw new WorkflowError("Configure Azure Storage before using the marketplace.", 503);
   return new MarketplaceRepository({ account, container: process.env.AZURE_STORAGE_CONTAINER, directory: process.env.MARKETPLACE_DATA_DIR });
 }
