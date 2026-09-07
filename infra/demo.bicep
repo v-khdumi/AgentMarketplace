@@ -59,7 +59,7 @@ resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
   }
 }
 
-resource zipDeploy 'Microsoft.Web/sites/extensions@2023-12-01' = {
+resource zipDeploy 'Microsoft.Web/sites/extensions@2021-03-01' = {
   parent: app
   name: 'onedeploy'
   dependsOn: [appSettings]

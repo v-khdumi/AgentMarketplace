@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.46.1.21595",
-      "templateHash": "4335453107260784514"
+      "templateHash": "1908525686558438558"
     }
   },
   "parameters": {
@@ -101,7 +101,7 @@
     },
     {
       "type": "Microsoft.Web/sites/extensions",
-      "apiVersion": "2023-12-01",
+      "apiVersion": "2021-03-01",
       "name": "[format('{0}/{1}', parameters('appName'), 'onedeploy')]",
       "properties": {
         "packageUri": "[parameters('packageUri')]",
