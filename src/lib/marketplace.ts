@@ -27,7 +27,7 @@ export class MarketplaceService {
   async state(actor: Actor) {
     let state = await this.repository.read(actor.tenantId);
     if ((actor.local || isPublicDemoMode()) && process.env.SEED_EXAMPLES !== "false" && state.revision === 0) {
-      await this.repository.update(actor.tenantId, (document) => { if (document.revision === 0) { document.agents = exampleAgents(); if (isPublicDemoMode()) { document.community = exampleCommunity(); document.settings = { ...document.settings, name: "BT Agent Hub", organization: "Banca Transilvania", accentColor: "#005eb8", supportEmail: "" }; } } });
+      await this.repository.update(actor.tenantId, (document) => { if (document.revision === 0) { document.agents = exampleAgents(); if (isPublicDemoMode()) { document.community = exampleCommunity(); document.settings = { ...document.settings, name: "AI Agent Marketplace", organization: "Contoso", accentColor: "#0067b8", supportEmail: "" }; } } });
       state = await this.repository.read(actor.tenantId);
     }
     this.allow(state, actor);

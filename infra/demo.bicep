@@ -50,7 +50,7 @@ resource appSettings 'Microsoft.Web/sites/config@2023-12-01' = {
     NEXTAUTH_URL: 'https://${app.properties.defaultHostName}'
     NEXTAUTH_SECRET: sessionSecret
     PUBLIC_DEMO_MODE: 'true'
-    DEMO_TENANT_ID: 'agent-marketplace-demo-v3'
+    DEMO_TENANT_ID: 'agent-marketplace-demo-contoso-v1'
     SEED_EXAMPLES: 'true'
     MARKETPLACE_DATA_DIR: '/tmp/agent-marketplace'
     REQUIRE_MALWARE_SCAN: 'false'
