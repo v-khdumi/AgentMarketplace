@@ -7,7 +7,7 @@ param appName string = 'agent-marketplace-${uniqueString(resourceGroup().id)}'
 param location string = resourceGroup().location
 
 @description('Prebuilt Linux standalone ZIP published with the repository')
-param packageUri string = 'https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/main/release/agent-marketplace-linux.zip?v=bt-demo-ux-1'
+param packageUri string = 'https://raw.githubusercontent.com/v-khdumi/AgentMarketplace/a534c34/release/agent-marketplace-linux.zip'
 
 var sessionSecret = '${uniqueString(resourceGroup().id, appName, subscription().subscriptionId)}${uniqueString(appName, tenant().tenantId)}${uniqueString(resourceGroup().id, tenant().tenantId)}'
 
