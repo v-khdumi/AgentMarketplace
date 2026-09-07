@@ -2,7 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import { draftSchema, settingsSchema, submissionIssues, type Actor, type AgentRecord, type AgentDraft, type AgentSummary, type AgentDetail, type StoreDocument, type AccessRequest, type AccessResolution, type StoredFile, type RoleAssignment } from "./contracts";
 import { MarketplaceRepository, getRepository, isPublicDemoMode } from "./repository";
 import { assertRevision, reviewSubmission, WorkflowError, type RiskLevel } from "./workflow";
-import { exampleAgents, exampleCommunity } from "./seed";
+import { exampleAgents, exampleCommunity, exampleMetrics } from "./seed";
 import { communityState, followers, notify, rememberRecipient } from "./community-events";
 
 const timestamp = () => new Date().toISOString();
@@ -27,7 +27,7 @@ export class MarketplaceService {
   async state(actor: Actor) {
     let state = await this.repository.read(actor.tenantId);
     if ((actor.local || isPublicDemoMode()) && process.env.SEED_EXAMPLES !== "false" && state.revision === 0) {
-      await this.repository.update(actor.tenantId, (document) => { if (document.revision === 0) { document.agents = exampleAgents(); if (isPublicDemoMode()) document.community = exampleCommunity(); } });
+      await this.repository.update(actor.tenantId, (document) => { if (document.revision === 0) { document.agents = exampleAgents(); if (isPublicDemoMode()) { document.community = exampleCommunity(); document.settings = { ...document.settings, name: "BT Agent Hub", organization: "Banca Transilvania", accentColor: "#005eb8", supportEmail: "" }; } } });
       state = await this.repository.read(actor.tenantId);
     }
     this.allow(state, actor);
@@ -52,7 +52,7 @@ export class MarketplaceService {
   summary(record: AgentRecord, actor: Actor, state: StoreDocument, working = false): AgentSummary {
     const version = latest(record);
     const draft = working ? record.draft : version?.draft ?? record.draft;
-    return { id: record.id, name: draft.name || "Untitled agent", summary: draft.summary, platform: draft.platform, category: draft.category, ownerName: record.ownerName, iconId: draft.iconId, state: working ? record.state : "published", risk: record.risk, version: version?.number ?? 0, updatedAt: working ? record.updatedAt : version?.publishedAt ?? record.updatedAt, requestAccess: !isPublicDemoMode() && !record.example && draft.distribution.requestAccess, downloadable: !isPublicDemoMode() && !record.example && state.settings.downloadsEnabled && draft.distribution.downloadEnabled && Boolean(draft.distribution.packageId) && canConfigure(record, actor), hasLaunchUrl: Boolean(draft.distribution.launchUrl), saved: (state.favorites[actor.id] ?? []).includes(record.id), example: record.example, tags: draft.tags };
+    return { id: record.id, name: draft.name || "Untitled agent", summary: draft.summary, platform: draft.platform, category: draft.category, ownerName: record.ownerName, iconId: draft.iconId, state: working ? record.state : "published", risk: record.risk, version: version?.number ?? 0, updatedAt: working ? record.updatedAt : version?.publishedAt ?? record.updatedAt, requestAccess: !isPublicDemoMode() && !record.example && draft.distribution.requestAccess, downloadable: !isPublicDemoMode() && !record.example && state.settings.downloadsEnabled && draft.distribution.downloadEnabled && Boolean(draft.distribution.packageId) && canConfigure(record, actor), hasLaunchUrl: Boolean(draft.distribution.launchUrl), saved: (state.favorites[actor.id] ?? []).includes(record.id), example: record.example, tags: draft.tags, ...(record.example ? exampleMetrics(record.id) : {}) };
   }
 
   async list(actor: Actor, scope: "catalog" | "mine" | "review" = "catalog") {

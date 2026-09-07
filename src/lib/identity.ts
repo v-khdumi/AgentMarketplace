@@ -15,7 +15,7 @@ export const localIdentities: Actor[] = [
   { id: "local-reader", tenantId: "local-tenant", name: "Local Reader", email: "reader@example.test", role: "reader", guest: false, groups: [], local: true },
   { id: "local-guest", tenantId: "local-tenant", name: "Local B2B Guest", email: "guest@example.test", role: "reader", guest: true, groups: [], local: true },
 ];
-export const publicDemoActor = (): Actor => ({ id: "demo-visitor", tenantId: process.env.DEMO_TENANT_ID ?? "agent-marketplace-demo", name: "Demo Visitor", email: "demo@example.invalid", role: "reader", guest: false, groups: [], local: false });
+export const publicDemoActor = (): Actor => ({ id: "demo-admin", tenantId: process.env.DEMO_TENANT_ID ?? "agent-marketplace-demo", name: "Demo Administrator", email: "demo@example.invalid", role: "admin", guest: false, groups: [], local: false });
 
 export function effectiveRole(actor: Actor, assignments: RoleAssignment[]): MarketplaceRole {
   if (actor.role === "admin") return actor.role;

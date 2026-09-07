@@ -21,8 +21,8 @@ export function Header() {
   const [switching, setSwitching] = useState(false);
   const pathname = usePathname();
   const branding = data?.settings ?? defaultSettings; const actor = data?.actor;
-  const canPublish = actor && !data?.blocked && !data?.demo && actor.role !== "reader";
-  const canReview = actor && !data?.blocked && !data?.demo && ["admin", "reviewer"].includes(actor.role);
+  const canPublish = actor && !data?.blocked && actor.role !== "reader";
+  const canReview = actor && !data?.blocked && ["admin", "reviewer"].includes(actor.role);
   const links = [
     { href: "/", label: tr("Catalog", "Catalog"), icon: LayoutGrid, count: 0 },
     ...(actor && !data?.blocked ? [{ href: "/community", label: tr("Comunitate", "Community"), icon: Users, count: 0 }] : []),

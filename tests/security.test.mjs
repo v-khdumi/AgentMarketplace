@@ -53,14 +53,14 @@ test("roles require a matching user or verified group; Entra admins retain recov
   assert.equal(effectiveRole({ ...actor, role: 'admin' }, [{ id: 'user', subjectType: 'user', role: 'reader' }]), 'admin');
 });
 
-test("public demo bypasses login with a shared reader but never enables local mode", async () => {
+test("public demo bypasses login with a shared administrator but never enables local mode", async () => {
   const original = { node: process.env.NODE_ENV, publicDemo: process.env.PUBLIC_DEMO_MODE, tenant: process.env.DEMO_TENANT_ID };
   try {
     process.env.NODE_ENV = "production"; process.env.PUBLIC_DEMO_MODE = "true"; process.env.DEMO_TENANT_ID = "public-demo-test";
     assert.equal(isPublicDemoMode(), true); assert.equal(isLocalMode(), false);
     assert.equal((await middleware(new NextRequest("https://demo.example/community"))).status, 200);
     const actor = await getActor();
-    assert.equal(actor.role, "reader"); assert.equal(actor.tenantId, "public-demo-test"); assert.equal(actor.local, false);
+    assert.equal(actor.role, "admin"); assert.equal(actor.tenantId, "public-demo-test"); assert.equal(actor.local, false);
   } finally {
     for (const [name, value] of Object.entries({ NODE_ENV: original.node, PUBLIC_DEMO_MODE: original.publicDemo, DEMO_TENANT_ID: original.tenant })) {
       if (value === undefined) delete process.env[name]; else process.env[name] = value;

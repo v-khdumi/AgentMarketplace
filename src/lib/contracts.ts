@@ -130,6 +130,7 @@ export interface AgentSummary {
   id: string; name: string; summary: string; platform: AgentDraft["platform"]; category: string; ownerName: string;
   iconId: string; state: PublicationState; risk: RiskLevel; version: number; updatedAt: string;
   requestAccess: boolean; downloadable: boolean; hasLaunchUrl: boolean; saved: boolean; example: boolean; tags: string[];
+  usageCount?: number; feedbackScore?: number;
 }
 export interface AccessResolution {
   state: "available" | "request-required" | "pending" | "approved" | "blocked" | "unknown";

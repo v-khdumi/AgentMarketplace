@@ -35,3 +35,8 @@ export function exampleCommunity(): CommunityState {
   community.teams = [{ id: "demo-team", name: "Copilot Makers Guild", description: "Creators, reviewers, and knowledge owners sharing practical patterns for governed internal agents.", skills: ["Agent Builder", "Copilot Studio", "Responsible AI"], audience: "all", ownerId: "local-publisher", ownerName: "Modern Work", members: [{ id: "local-publisher", name: "Modern Work" }, { id: "people-culture", name: "People & Culture" }], revision: 1, createdAt: "2026-09-01T08:00:00.000Z", updatedAt: "2026-09-04T08:00:00.000Z", hidden: false, archived: false }];
   return community;
 }
+
+export function exampleMetrics(id: string) {
+  const agent = agents.find(entry => entry.id === id);
+  return agent ? { usageCount: agent.users, feedbackScore: agent.rating } : {};
+}

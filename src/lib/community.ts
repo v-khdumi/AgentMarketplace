@@ -26,7 +26,7 @@ export class CommunityService {
   async policy(actor: Actor) {
     const state = await this.repository.read(actor.tenantId);
     const community = this.allow(state, actor);
-    return { policy: community.policy, revision: community.policyRevision, canModerate: !isPublicDemoMode() && communityModerator(actor), canParticipate: !isPublicDemoMode() && community.policy.enabled && (!actor.guest || community.policy.allowGuestParticipation) };
+    return { policy: community.policy, revision: community.policyRevision, canModerate: communityModerator(actor), canParticipate: !isPublicDemoMode() && community.policy.enabled && (!actor.guest || community.policy.allowGuestParticipation) };
   }
 
   async savePolicy(actor: Actor, input: unknown, expected: number) {

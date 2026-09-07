@@ -82,7 +82,7 @@ Use the Deploy to Azure button above for a showcase that requires no Microsoft E
 - deploys App Service F1 and initializes the read-only showcase state in ephemeral application storage;
 - installs a prebuilt Linux standalone package published with this repository, avoiding an in-portal build;
 - sets `PUBLIC_DEMO_MODE=true` and initializes representative catalog, profile, discussion, idea, and team data;
-- uses one shared reader identity and blocks every non-GET marketplace API request;
+- exposes all role-based screens through a shared demo administrator while blocking every non-GET marketplace API request;
 - disables upload/download and external notification delivery paths for the public visitor.
 
 The demo is not the enterprise deployment. Use `infra/main.bicep` and configure Entra, Key Vault, Defender, Graph, roles, and B2B access for a writable organizational instance.
